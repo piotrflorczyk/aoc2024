@@ -71,6 +71,4 @@ fn p2() {
 fn main() {
     p1();
     p2();
-    //let x = part2(include_str!("../../input/day2"));
-    //println!("{x}");
 }
