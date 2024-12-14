@@ -51,7 +51,7 @@ fn match_with_one_error(elements: &Vec<i32>, dir: i32) -> bool {
             );
         }
     }
-    return true;
+    true
 }
 
 fn p2() {
