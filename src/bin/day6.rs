@@ -65,18 +65,14 @@ fn is_looping(orig_grid: &[Vec<u8>], pos: (usize, usize), dir: usize) -> bool {
             return false;
         }
 
-        if grid[next_x as usize][next_y as usize] == '#' as u8 {
+        if grid[next_x as usize][next_y as usize] == b'#' {
             // obstacle => change dir
             curr_dir = (curr_dir + 1) % 4;
-        } else if grid[next_x as usize][next_y as usize] == 0 {
-            // empty cell => mark it as visited in given direction
-            (x, y) = (next_x as usize, next_y as usize);
-            grid[x][y] = 1 << curr_dir;
         } else if grid[next_x as usize][next_y as usize] & (1 << curr_dir) != 0 {
             // visited cell with the same direction => we are in the loop
             return true;
         } else {
-            // visited cell with different direction => add new direction
+            // visited cell with different direction or empty => add new direction
             (x, y) = (next_x as usize, next_y as usize);
             grid[x][y] |= 1 << curr_dir;
         }
@@ -115,19 +111,18 @@ fn p2() {
         {
             break;
         }
-        if grid[next_x as usize][next_y as usize] == '#' as u8 {
+        if grid[next_x as usize][next_y as usize] == b'#' {
             // obstacle => change dir
             curr_dir = (curr_dir + 1) % 4;
-        } else if grid[next_x as usize][next_y as usize] == 0 {
-            // empty cell => place an obstacle, check, marke as visited with curr direction
-            grid[next_x as usize][next_y as usize] = '#' as u8;
-            cnt += (is_looping(&grid, (x, y), curr_dir)) as i32;
+        } else {
+            if grid[next_x as usize][next_y as usize] == 0 {
+                // empty cell => place an obstacle, check, marke as visited with curr direction
+                grid[next_x as usize][next_y as usize] = b'#';
+                cnt += (is_looping(&grid, (x, y), curr_dir)) as i32;
+                grid[next_x as usize][next_y as usize] = 0;
+            }
             (x, y) = (next_x as usize, next_y as usize);
             grid[x][y] = 1 << curr_dir;
-        } else {
-            // occupied cell => add visited direction
-            (x, y) = (next_x as usize, next_y as usize);
-            grid[x][y] |= 1 << curr_dir;
         }
     }
     println!("P2: {cnt:?}");
