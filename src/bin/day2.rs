@@ -29,7 +29,7 @@ fn all_must_match<'a>(mut iterator: impl Iterator<Item = &'a i32>, dir: i32) -> 
     })
 }
 
-fn match_with_one_error(elements: &Vec<i32>, dir: i32) -> bool {
+fn match_with_one_error(elements: &[i32], dir: i32) -> bool {
     let mut prev = elements[0];
     for (idx, &el) in elements.iter().enumerate().skip(1) {
         let diff = prev - el;

@@ -1,4 +1,4 @@
-fn count_occurances(grid: &Vec<Vec<char>>, i: isize, j: isize) -> u32 {
+fn count_occurances(grid: &[Vec<char>], i: isize, j: isize) -> u32 {
     let dirs = [
         (-1, 0),
         (1, 0),
@@ -41,10 +41,10 @@ fn p1() {
     println!("P1: {p1}");
 }
 
-fn x_mas_matches(grid: &Vec<Vec<char>>, i: isize, j: isize) -> bool {
-    return i - 1 >= 0
+fn x_mas_matches(grid: &[Vec<char>], i: isize, j: isize) -> bool {
+    i > 0
         && i + 1 < grid.len() as isize
-        && j - 1 >= 0
+        && j > 0
         && j + 1 < grid[i as usize].len() as isize
         && ((grid[(i - 1) as usize][(j - 1) as usize] == 'M'
             && grid[(i + 1) as usize][(j + 1) as usize] == 'S')
@@ -53,7 +53,7 @@ fn x_mas_matches(grid: &Vec<Vec<char>>, i: isize, j: isize) -> bool {
         && ((grid[(i - 1) as usize][(j + 1) as usize] == 'M'
             && grid[(i + 1) as usize][(j - 1) as usize] == 'S')
             || (grid[(i - 1) as usize][(j + 1) as usize] == 'S'
-                && grid[(i + 1) as usize][(j - 1) as usize] == 'M'));
+                && grid[(i + 1) as usize][(j - 1) as usize] == 'M'))
 }
 
 fn p2() {
