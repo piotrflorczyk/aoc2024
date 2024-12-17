@@ -31,8 +31,8 @@ fn p1() {
         let curr_level = grid[row as usize][col as usize];
         if curr_level == 0 {
             visited.clear();
+            visited.insert((row, col));
         }
-        visited.insert((row, col));
         if curr_level == 9 {
             cnt += 1;
         } else {
@@ -46,6 +46,7 @@ fn p1() {
                         && grid[(row + drow) as usize][(col + dcol) as usize] == curr_level + 1
                         && !visited.contains(&(row + drow, col + dcol))
                     {
+                        visited.insert((row + drow, col + dcol));
                         queue.push((row + drow, col + dcol));
                     }
                 });
