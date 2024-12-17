@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 #[derive(Debug, Copy, Clone)]
 struct Robot {
     pos: (isize, isize),
@@ -57,6 +55,25 @@ fn p1() {
     println!("P1: {p1:?}");
 }
 
+fn std_dev(values: &[(isize, isize)]) -> (f64, f64) {
+    let x_mean = values.iter().map(|&(x, _)| x as f64).sum::<f64>() / values.len() as f64;
+    let y_mean = values.iter().map(|&(_, y)| y as f64).sum::<f64>() / values.len() as f64;
+
+    let x_variance = values
+        .iter()
+        .map(|&(x, _)| (x as f64 - x_mean).powi(2))
+        .sum::<f64>()
+        / values.len() as f64;
+
+    let y_variance = values
+        .iter()
+        .map(|&(_, y)| (y as f64 - y_mean).powi(2))
+        .sum::<f64>()
+        / values.len() as f64;
+
+    (x_variance.sqrt(), y_variance.sqrt())
+}
+
 fn p2() {
     let robots = include_str!("../../input/day14")
         .lines()
@@ -81,11 +98,12 @@ fn p2() {
         let transformed_robots = robots
             .iter()
             .map(|robot| simulate(robot, i, width, height))
-            .collect::<HashSet<_>>();
+            .collect::<Vec<_>>();
 
-        if transformed_robots.len() == robots.len() {
+        let (x_var, y_var) = std_dev(&transformed_robots);
+        // stardard deviation, for most it seems to be around ~29
+        if x_var < 25f64 && y_var < 25f64 {
             println!("P2: {i}");
-            break;
         }
     }
 }
