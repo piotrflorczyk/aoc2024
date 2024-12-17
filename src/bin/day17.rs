@@ -1,27 +1,27 @@
 #[derive(Debug, Clone, Copy)]
 enum Opcode {
-    ADV = 0,
-    BXL = 1,
-    BST = 2,
-    JNZ = 3,
-    BXC = 4,
-    OUT = 5,
-    BDV = 6,
-    CDV = 7,
+    Adv = 0,
+    Bxl = 1,
+    Bst = 2,
+    Jnz = 3,
+    Bxc = 4,
+    Out = 5,
+    Bdv = 6,
+    Cdv = 7,
 }
 
 impl From<&str> for Opcode {
     fn from(value: &str) -> Self {
         let opcode = value.parse::<u64>().unwrap();
         match opcode {
-            0 => Self::ADV,
-            1 => Self::BXL,
-            2 => Self::BST,
-            3 => Self::JNZ,
-            4 => Self::BXC,
-            5 => Self::OUT,
-            6 => Self::BDV,
-            7 => Self::CDV,
+            0 => Self::Adv,
+            1 => Self::Bxl,
+            2 => Self::Bst,
+            3 => Self::Jnz,
+            4 => Self::Bxc,
+            5 => Self::Out,
+            6 => Self::Bdv,
+            7 => Self::Cdv,
             _ => panic!("WTF"),
         }
     }
@@ -74,27 +74,24 @@ fn p1() {
     let mut pc = 0;
     while pc < program.instr.len() {
         match program.instr[pc] {
-            Opcode::ADV => {
-                program.reg_a =
-                    program.reg_a / (2u32.pow(program.combo_to_value(program.instr[pc + 1])))
-            }
-            Opcode::BXL => program.reg_b ^= program.instr[pc + 1] as u32,
-            Opcode::BST => program.reg_b = program.combo_to_value(program.instr[pc + 1]) % 8,
-            Opcode::JNZ => {
+            Opcode::Adv => program.reg_a /= 2u32.pow(program.combo_to_value(program.instr[pc + 1])),
+            Opcode::Bxl => program.reg_b ^= program.instr[pc + 1] as u32,
+            Opcode::Bst => program.reg_b = program.combo_to_value(program.instr[pc + 1]) % 8,
+            Opcode::Jnz => {
                 if program.reg_a != 0 {
                     pc = program.instr[pc + 1] as usize;
                     continue;
                 }
             }
-            Opcode::BXC => program.reg_b ^= program.reg_c,
-            Opcode::OUT => {
+            Opcode::Bxc => program.reg_b ^= program.reg_c,
+            Opcode::Out => {
                 print!("{},", program.combo_to_value(program.instr[pc + 1]) % 8);
             }
-            Opcode::BDV => {
+            Opcode::Bdv => {
                 program.reg_b =
                     program.reg_a / (2u32.pow(program.combo_to_value(program.instr[pc + 1])))
             }
-            Opcode::CDV => {
+            Opcode::Cdv => {
                 program.reg_c =
                     program.reg_a / (2u32.pow(program.combo_to_value(program.instr[pc + 1])))
             }
