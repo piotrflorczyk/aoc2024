@@ -65,6 +65,7 @@ fn p2() {
         .take(bytes)
         .collect::<HashSet<_>>();
     let mut p2 = (0, 0);
+    // TODO: change this to bisect
     for i in bytes + 1..all_blocks.len() {
         blocks.insert(all_blocks[i]);
 
