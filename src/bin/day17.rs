@@ -81,7 +81,7 @@ impl From<&str> for Program {
 }
 
 fn emulate(program: &Program) -> Vec<u64> {
-    let mut state = program.state.clone();
+    let mut state = program.state;
     let mut pc = 0;
     let mut output = Vec::new();
     while pc < program.instr.len() {
