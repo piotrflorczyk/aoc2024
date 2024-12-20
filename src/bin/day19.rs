@@ -19,8 +19,8 @@ fn p1() {
                     return true;
                 }
                 colors.iter().for_each(|color| {
-                    if str.starts_with(color) {
-                        queue.push(str[color.len()..].to_string());
+                    if let Some(rest) = str.strip_prefix(color) {
+                        queue.push(rest.to_string());
                     }
                 });
             }
@@ -40,7 +40,7 @@ fn dfs(str: String, colors: &Vec<&str>, cache: &mut HashMap<String, usize>) -> u
         .map(|color| dfs(str[color.len()..].to_string(), colors, cache))
         .sum::<usize>();
     cache.insert(str, combinations);
-    return combinations;
+    combinations
 }
 
 fn p2() {

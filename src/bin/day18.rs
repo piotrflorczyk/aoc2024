@@ -66,8 +66,8 @@ fn p2() {
         .collect::<HashSet<_>>();
     let mut p2 = (0, 0);
     // TODO: change this to bisect
-    for i in bytes + 1..all_blocks.len() {
-        blocks.insert(all_blocks[i]);
+    for block in all_blocks.iter().skip(bytes + 1) {
+        blocks.insert(*block);
 
         let mut heap = vec![(0, 0)];
         let mut visited: HashSet<Pos> = HashSet::new();
@@ -90,7 +90,7 @@ fn p2() {
                 });
         }
         if !visited.contains(&(size - 1, size - 1)) {
-            p2 = (all_blocks[i].1, all_blocks[i].0);
+            p2 = (block.1, block.0);
             break;
         }
     }

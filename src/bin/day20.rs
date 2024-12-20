@@ -1,6 +1,6 @@
 type Pos = (isize, isize);
 
-fn p1() {
+fn p1_p2(max_distance: isize, min_score_difference: usize) {
     let (mut curr_r, mut curr_c) = (0, 0);
     let grid = include_str!("../../input/day20")
         .lines()
@@ -26,21 +26,24 @@ fn p1() {
             }
         }
     }
-    let mut p1 = 0;
+    let mut answer = 0;
     for i in 0..path.len() {
-        for j in i..path.len() {
+        for j in i + 1..path.len() {
             let (start_idx, (start_r, start_c)) = (i, path[i]);
             let (end_idx, (end_r, end_c)) = (j, path[j]);
-            if (end_r - start_r).abs() + (end_c - start_c).abs() == 2
-                && end_idx - start_idx - 2 >= 100
+            let distance = (end_r - start_r).abs() + (end_c - start_c).abs();
+            if distance >= 2
+                && distance <= max_distance
+                && end_idx - start_idx - distance as usize >= min_score_difference
             {
-                p1 += 1;
+                answer += 1;
             }
         }
     }
-    println!("{p1}");
+    println!("P1/2: {answer}");
 }
 
 fn main() {
-    p1();
+    p1_p2(2, 100);
+    p1_p2(20, 100);
 }
