@@ -58,7 +58,7 @@ fn mov(from: char, to: char, lvl: u8, ctx: &Ctx, memo: &mut HashMap<(char, char,
         .map(|path| {
             path.chars()
                 .fold(('A', 0), |(prev, acc), ch| {
-                    (ch, acc + mov(prev, ch, lvl + 1, &ctx, memo))
+                    (ch, acc + mov(prev, ch, lvl + 1, ctx, memo))
                 })
                 .1
         })

@@ -64,8 +64,8 @@ fn bron(
             bron(
                 graph,
                 r.union(&to_add).cloned().collect(),
-                p.intersection(&neighbours).cloned().collect(),
-                x.intersection(&neighbours).cloned().collect(),
+                p.intersection(neighbours).cloned().collect(),
+                x.intersection(neighbours).cloned().collect(),
                 cliques,
             );
             p.remove(node);

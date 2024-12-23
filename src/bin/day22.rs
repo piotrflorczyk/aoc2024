@@ -47,11 +47,9 @@ fn p2() {
             diff_key = ((diff_key << 5) | diff) & 0xFFFFF;
             prev = secret_number;
 
-            if i >= 3 {
-                if !visited[diff_key as usize] {
-                    visited[diff_key as usize] = true;
-                    sold[diff_key as usize] += secret_number % 10;
-                }
+            if i >= 3 && !visited[diff_key as usize] {
+                visited[diff_key as usize] = true;
+                sold[diff_key as usize] += secret_number % 10;
             }
         }
     });
