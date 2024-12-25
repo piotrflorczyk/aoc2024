@@ -14,16 +14,18 @@ fn p1() {
             lines.reverse();
         }
 
-        let mut code = vec![0; lines[0].len()];
-        for i in 1..lines.len() {
-            lines[i]
-                .chars()
-                .enumerate()
-                .filter(|(_, ch)| *ch == '#')
-                .for_each(|(idx, _)| {
-                    code[idx] += 1;
-                });
-        }
+        let code = lines
+            .iter()
+            .skip(1)
+            .fold(vec![0; lines[0].len()], |mut code, line| {
+                line.chars()
+                    .enumerate()
+                    .filter(|(_, ch)| *ch == '#')
+                    .for_each(|(idx, _)| {
+                        code[idx] += 1;
+                    });
+                code
+            });
         if is_key {
             keys.push(code);
         } else {
@@ -31,18 +33,21 @@ fn p1() {
         }
     });
 
-    let mut p1 = 0;
-    for key_code in &keys {
-        for lock_code in &locks {
-            if key_code
+    let p1 = keys
+        .iter()
+        .map(|key_code| {
+            locks
                 .iter()
-                .zip(lock_code.iter())
-                .all(|(x, y)| x + y <= 5)
-            {
-                p1 += 1;
-            }
-        }
-    }
+                .filter(|&lock_code| {
+                    key_code
+                        .iter()
+                        .zip(lock_code.iter())
+                        .all(|(x, y)| x + y <= 5)
+                })
+                .count()
+        })
+        .sum::<usize>();
+
     println!("P1: {p1}")
 }
 
